@@ -53,17 +53,21 @@ def check():
     password = os.environ.get('PASSWORD')
     slack_webhook_url = os.environ.get('SLACK_WEBHOOK_URL') 
     discord_webhook_url = os.environ.get('DISCORD_WEBHOOK_URL')
+    buy_option = os.environ.get('BUYOPTION').split(",")
 
     globalAuthCtrl = auth.AuthController()
     globalAuthCtrl.login(username, password)
-    
-    response = check_winning_lotto645(globalAuthCtrl)
-    send_message(0, 0, response=response, webhook_url=discord_webhook_url)
 
-    time.sleep(10)
-    
-    response = check_winning_win720(globalAuthCtrl)
-    send_message(0, 1, response=response, webhook_url=discord_webhook_url)
+    for opt in buy_option:
+        if opt == "645":
+            print("check 645")
+            response = check_winning_lotto645(globalAuthCtrl)
+            send_message(0, 0, response=response, webhook_url=discord_webhook_url)
+        elif opt == "720":
+            print("check 720")
+            response = check_winning_win720(globalAuthCtrl)
+            send_message(0, 1, response=response, webhook_url=discord_webhook_url)
+        time.sleep(10)
 
 def buy(): 
     
@@ -74,18 +78,22 @@ def buy():
     count = int(os.environ.get('COUNT'))
     slack_webhook_url = os.environ.get('SLACK_WEBHOOK_URL') 
     discord_webhook_url = os.environ.get('DISCORD_WEBHOOK_URL')
+    buy_option = os.environ.get('BUYOPTION').split(",")
     mode = "AUTO"
 
     globalAuthCtrl = auth.AuthController()
     globalAuthCtrl.login(username, password)
 
-    response = buy_lotto645(globalAuthCtrl, count, mode) 
-    send_message(1, 0, response=response, webhook_url=discord_webhook_url)
-
-    time.sleep(10)
-
-    response = buy_win720(globalAuthCtrl, username) 
-    send_message(1, 1, response=response, webhook_url=discord_webhook_url)
+    for opt in buy_option:
+        if opt == "645":
+            print("buy 645")
+            response = buy_lotto645(globalAuthCtrl, count, mode)
+            send_message(1, 0, response=response, webhook_url=discord_webhook_url)
+        elif opt == "720":
+            print("buy 720")
+            response = buy_win720(globalAuthCtrl, username)
+            send_message(1, 1, response=response, webhook_url=discord_webhook_url)
+        time.sleep(10)
 
 def run():
     if len(sys.argv) < 2:
