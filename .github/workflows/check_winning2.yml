@@ -1,13 +1,13 @@
-name: Buy lotto
+name: Check Winning
 on:
   schedule:
-    - cron: 0 10 * * 1 # every Monday on 07:00 PM (KST)
+    - cron: 30 13 * * 6 # every Saturday on 10:30 PM (KST)
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: [ubuntu-latest]
-    name: Buy lotto
+    name: Check Winning 2
     steps:  
 
       - uses: actions/checkout@v3    
@@ -16,12 +16,12 @@ jobs:
           python-version: '3.9'
           cache: 'pip' # caching pip dependencies
       - run: pip install -r requirements.txt
-      
+
       - name: Run Scripts
-        run: make buy
+        run: make check
         env:
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
+          USERNAME: ${{ secrets.USERNAME2 }}
+          PASSWORD: ${{ secrets.PASSWORD2 }}
           COUNT: ${{ secrets.COUNT }}
           BUYOPTION: ${{ secrets.BUYOPTION }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
